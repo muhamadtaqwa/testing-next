@@ -10,9 +10,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
+model Menu {
+  id        Int           @id @default(autoincrement())
+  nama      String
+  harga     Int
+  kategori  String
+  stok      Int           @default(0)
+  createdAt DateTime      @default(now())
+  items     ItemPesanan[]
+}
+
+model Pesanan {
+  id        Int           @id @default(autoincrement())
+  nomorMeja String
+  total     Int
+  status    String        @default("PENDING") // PENDING, DIPROSES, SELESAI
+  createdAt DateTime      @default(now())
+  items     ItemPesanan[]
+}
+
+model ItemPesanan {
   id        Int      @id @default(autoincrement())
-  title     String
-  content   String
-  createdAt DateTime @default(now())
+  pesananId Int
+  pesanan   Pesanan  @relation(fields: [pesananId], references: [id], onDelete: Cascade)
+  menuId    Int
+  menu      Menu     @relation(fields: [menuId], references: [id], onDelete: Cascade)
+  jumlah    Int
+  harga     Int
 }

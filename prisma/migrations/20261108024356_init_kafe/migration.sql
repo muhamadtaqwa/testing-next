@@ -1,0 +1,29 @@
+-- CreateTable
+CREATE TABLE "Menu" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "nama" TEXT NOT NULL,
+    "harga" INTEGER NOT NULL,
+    "kategori" TEXT NOT NULL,
+    "stok" INTEGER NOT NULL DEFAULT 0,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- CreateTable
+CREATE TABLE "Pesanan" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "nomorMeja" TEXT NOT NULL,
+    "total" INTEGER NOT NULL,
+    "status" TEXT NOT NULL DEFAULT 'PENDING',
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- CreateTable
+CREATE TABLE "ItemPesanan" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "pesananId" INTEGER NOT NULL,
+    "menuId" INTEGER NOT NULL,
+    "jumlah" INTEGER NOT NULL,
+    "harga" INTEGER NOT NULL,
+    CONSTRAINT "ItemPesanan_pesananId_fkey" FOREIGN KEY ("pesananId") REFERENCES "Pesanan" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT "ItemPesanan_menuId_fkey" FOREIGN KEY ("menuId") REFERENCES "Menu" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
