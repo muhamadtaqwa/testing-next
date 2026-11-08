@@ -51,6 +51,13 @@ jobs:
           cp -a prisma/. deploy_temp/prisma/
           cp package.json deploy_temp/
 
+      - name: Copy Prisma Runtime Files
+        run: |
+          mkdir -p deploy_temp/node_modules/@prisma/client/runtime
+          cp -r node_modules/@prisma/client/runtime/* deploy_temp/node_modules/@prisma/client/runtime/ 2>/dev/null || true
+          mkdir -p deploy_temp/node_modules/.prisma/client
+          cp -r node_modules/.prisma/client/* deploy_temp/node_modules/.prisma/client/ 2>/dev/null || true
+
       - name: Create tar.gz archive
         run: |
           tar -czf deploy.tar.gz -C deploy_temp .
