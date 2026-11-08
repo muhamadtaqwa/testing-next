@@ -75,7 +75,8 @@ jobs:
           script: |
             set -e
             cd /var/www/testing-next
-            tar -xzf deploy.tar.gz
+            # Ekstrak dengan mengabaikan error timestamp/permission
+            tar -xzf deploy.tar.gz --no-same-owner || true
             rm -f deploy.tar.gz
             # Pastikan kepemilikan file dimiliki oleh user aplikasi filebrowser
             sudo chown -R filebrowser:filebrowser /var/www/testing-next
